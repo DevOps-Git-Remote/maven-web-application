@@ -19,7 +19,7 @@
 String ip = "";
 InetAddress inetAddress = InetAddress.getLocalHost();
 ip = inetAddress.getHostAddress();
-out.println("Srver Host Name :: "+inetAddress.getHostName()); 
+out.println("Srvr Host Name :: "+inetAddress.getHostName()); 
 %>
 <br>
 <%out.println("Server IP Address :: "+ip);%>
