@@ -2,6 +2,12 @@ node
 {
     def mavenHome = tool name: "Maven-3.9.5"
     properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '3')), [$class: 'JobLocalConfiguration', changeReasonComment: ''], pipelineTriggers([githubPush()])])
+
+    echo "GitHub Branch Name ${env.BRANCH_NAME}"
+    echo "jenkins Job Number ${env.BUILD_NUMBER}"
+    echo "Jenkins Job Name ${env.JOB_NAME}"
+    
+
     stage('Get Code')
     {
         git branch: 'development', credentialsId: '35a7a714-998b-4bda-b517-ac5be548d599', url: 'https://github.com/DevOps-Git-Remote/maven-web-application.git'
