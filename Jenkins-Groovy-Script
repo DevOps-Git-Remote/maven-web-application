@@ -1,0 +1,40 @@
+node
+{
+    def mavenHome = tool name: "Maven-3.9.5"
+    properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '3')), [$class: 'JobLocalConfiguration', changeReasonComment: ''], pipelineTriggers([githubPush()])])
+    stage('Get Code')
+    {
+        git branch: 'development', credentialsId: '35a7a714-998b-4bda-b517-ac5be548d599', url: 'https://github.com/DevOps-Git-Remote/maven-web-application.git'
+    }
+    stage('Build Artifact')
+    {
+        sh "${mavenHome}/bin/mvn clean package"
+    }
+    stage('Initiate SonarQube Report')
+    {
+        sh "${mavenHome}/bin/mvn clean sonar:sonar"
+    }
+    stage('Upload Artifact')
+    {
+        sh "${mavenHome}/bin/mvn clean deploy"
+    }
+    stage('Deployment')
+    {
+        sshagent(['7f80d6d7-1c7b-41e5-b706-45ab961c4dcd']) 
+        {
+            //sh "mv /var/lib/jenkins/jobs/Sample_Web_Application_Using_Pipeline/workspace/target/*.war /opt/apache-tomcat-9.0.91/webapps/"
+            sh "scp  -o StrictHostKeyChecking=no /var/lib/jenkins/jobs/Sample_Web_Application_Using_Pipeline/workspace/target/*.war root@192.168.1.103:/opt/apache-tomcat-9.0.91/webapps/"
+            //sh "pgrep -x ssh-agent > /dev/null || ssh-agent"
+        }
+        //deploy adapters: [tomcat9(credentialsId: 'a45132d6-f49e-467f-88db-73573fd3a4fd', path: '', url: 'http://192.168.1.103:9980/')], contextPath: null, war: '**/*.war'
+    }
+    stage('Notify Developer')
+    {
+        emailext body: '''$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
+
+        Check console output at $BUILD_URL to view the results.
+
+        Thanks & Regards
+        PASUPULETI''', subject: '$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!', to: 'arunsai.pasupuleti@gmail.com,deeparamya532@gmail.com,'
+    }
+}
