@@ -18,7 +18,7 @@ node
     }
     stage('Initiate SonarQube Report')
     {    
-        withSonarQubeEnv('SonarQubeServer'){
+        withSonarQubeEnv('SonarQube Scanner'){
             sh "${mavenHome}/bin/mvn clean sonar:sonar"
         }    
     }
