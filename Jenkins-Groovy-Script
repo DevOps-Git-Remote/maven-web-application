@@ -32,7 +32,7 @@ node
             }
         }
     }
-    /**stage('Upload Artifact')
+    stage('Upload Artifact')
     {
         sh "${mavenHome}/bin/mvn clean deploy"
     }
@@ -54,5 +54,5 @@ node
 
         Thanks & Regards
         PASUPULETI''', subject: '$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!', to: 'arunsai.pasupuleti@gmail.com,deeparamya532@gmail.com,'
-    }**/
+    }
 }
