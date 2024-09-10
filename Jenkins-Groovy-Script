@@ -43,7 +43,7 @@ node
         sshagent(['7f80d6d7-1c7b-41e5-b706-45ab961c4dcd']) 
         {
             //sh "mv /var/lib/jenkins/jobs/Sample_Web_Application_Using_Pipeline/workspace/target/*.war /opt/apache-tomcat-9.0.91/webapps/"
-            sh "scp  -o StrictHostKeyChecking=no /var/lib/jenkins/jobs/Sample_Web_Application_Using_Pipeline/workspace/target/*.war root@192.168.1.103:/opt/apache-tomcat-9.0.91/webapps/"
+            sh "scp  -o StrictHostKeyChecking=no /var/lib/jenkins/jobs/Sample_Web_Application_Using_Pipeline/workspace/target/*.war root@192.168.1.105:/opt/apache-tomcat-9.0.91/webapps/"
             //sh "pgrep -x ssh-agent > /dev/null || ssh-agent"
         }
         //deploy adapters: [tomcat9(credentialsId: 'a45132d6-f49e-467f-88db-73573fd3a4fd', path: '', url: 'http://192.168.1.103:9980/')], contextPath: null, war: '**/*.war'
