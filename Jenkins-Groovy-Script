@@ -20,6 +20,18 @@ node
     {
         sh "${mavenHome}/bin/mvn clean sonar:sonar"
     }
+    stage('SonarQubeQG')
+    {
+        timeout(time: 1, unit: 'HOURS'){
+            def ag = waitForQualityGate()
+            if(ag.status = 'OK'){
+                error "Pipeline aborted due to report failure"
+            }
+            else{
+                print "Pipeline executed successfully"
+            }
+        }
+    }
     stage('Upload Artifact')
     {
         sh "${mavenHome}/bin/mvn clean deploy"
